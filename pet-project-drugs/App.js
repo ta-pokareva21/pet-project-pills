@@ -1,65 +1,42 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Button} from 'react-native';
+//import 'react-native-gesture-handler';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import StartScreen1 from './src/StartScreen1';
+import StartScreen2 from './src/StartScreen2';
+
+
+
 
 const Stack = createStackNavigator(); 
 
-export default function App() {
- render() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.textBlock}>
-        <Text style={styles.text}>Привет! {"\n"}Это приложение {"\n"}поможет вам {"\n"}вовремя {"\n"}принимать {"\n"}лекарства и {"\n"}заботиться о {"\n"}здоровье!</Text>
-      </View>
+class App extends React.Component {
 
-      <Image source={require('./src/pictures/startScreen.png')} style={styles.picture}/>
-      
-      <View style={styles.outter} activeOpacity={1}>
-        <Button title={'Начать'} color={'#ffffff'}/>
-      </View>
-    
-    </View>
-        
+  render() {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="StartScreen1"
+            component={StartScreen1}
+            options={{
+              headerShown: false
+            }} 
+          />
+          <Stack.Screen
+            name="StartScreen2"
+            component={StartScreen2}
+            options={{
+              headerShown: false
+            }}
+          />
+        </Stack.Navigator>
+    </NavigationContainer> 
   );
   }
 }
 
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#B0D8FC',
-    alignItems: 'center',
-    justifyContent: 'space-around',
-  },
-
-  textBlock: {
-    width: '70%',
-    marginTop: '15%'
-  },
-
-  text: {
-    color: '#ffffff',
-    fontSize: 32,
-    
-  },
+export default App;
 
 
-  outter: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontSize: 50,
-    width: '50%',
-    height: '6%', 
-    backgroundColor: '#00305D',
-    borderRadius: 24,
-    marginTop: '10%',
-    marginBottom: '15%'
-  },
-
-  picture: {
-    left: 20
-  }
-});
-
+  

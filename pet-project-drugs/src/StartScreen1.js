@@ -3,25 +3,26 @@ import { StyleSheet, Text, View, Image, Button} from 'react-native';
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 
-
 // const Stack = createStackNavigator(); 
 
-class StartScreen2 extends React.Component {
+class StartScreen1 extends React.Component {
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.textBlock}>
-                    <Text style={styles.text}>Отлично! {"\n"}Не забывайте, {"\n"}что любые {"\n"}лекарства должны {"\n"}приниматься по{"\n"}назначению {"\n"}врача!</Text>
+                    <Text style={styles.text}>Привет! {"\n"}Это приложение {"\n"}поможет вам {"\n"}вовремя {"\n"}принимать {"\n"}лекарства и {"\n"}заботиться о {"\n"}здоровье!</Text>
                 </View>
 
-                <Image source={require('./pictures/startScreen2.png')} style={styles.picture}/>
-
-                <View>
-                    <Text style={styles.text2}>{"\n"}Разрешите отправлять {"\n"}вам уведомления</Text>
-                </View>
-
+                <Image source={require('./pictures/startScreen.png')} style={styles.picture}/>
+                
                 <View style={styles.outter} activeOpacity={1}>
-                    <Button title={'Разрешить'} color={'#ffffff'}/>
+                    <Button 
+                        title={'Начать'} 
+                        color={'#ffffff'}
+                        onPress={() => 
+                            this.props.navigation.navigate('StartScreen2')
+                        }
+                        />
                 </View>
             </View>    
         );
@@ -60,16 +61,8 @@ const styles = StyleSheet.create({
   },
 
   picture: {
-    left: 35,
-    width: 170,
-    height: 170
-  },
-
-  text2: {
-    color: '#00305D',
-    fontSize: 24,
-    textAlign: 'center'
-  },
+    left: 20
+  }
 });
 
-export default StartScreen2;
+export default StartScreen1;
