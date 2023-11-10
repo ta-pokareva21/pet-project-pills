@@ -4,6 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import StartScreen1 from './src/StartScreen1';
 import StartScreen2 from './src/StartScreen2';
+import PermissionsNotification from './src/PermissionsNotification';
 
 
 
@@ -26,6 +27,13 @@ class App extends React.Component {
           <Stack.Screen
             name="StartScreen2"
             component={StartScreen2}
+            options={{
+              headerShown: false
+            }}
+          />
+          <Stack.Screen
+            name="PermissionsNotification"
+            component={PermissionsNotification}
             options={{
               headerShown: false
             }}

@@ -21,7 +21,13 @@ class StartScreen2 extends React.Component {
                 </View>
 
                 <View style={styles.outter} activeOpacity={1}>
-                    <Button title={'Разрешить'} color={'#ffffff'}/>
+                    <Button 
+                      title={'Разрешить'}
+                      color={'#ffffff'}
+                      onPress={() => 
+                        this.props.navigation.navigate('PermissionsNotification')
+                      }
+                    />
                 </View>
             </View>    
         );
