@@ -2,6 +2,7 @@ import React, { useEffect } from "react"
 import { StyleSheet, View, Button, Image } from "react-native"
 import * as Notifications from "expo-notifications"
 import * as Permissions from "expo-permissions"
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 
 // Show notifications when the app is in the foreground
 Notifications.setNotificationHandler({
@@ -45,6 +46,8 @@ export default function PermissionsNotification() {
     })
   }
 
+
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
         <Image source={require('./pictures/mailScreen3.png')} style={styles.pictureMail}/>
@@ -53,6 +56,15 @@ export default function PermissionsNotification() {
             color='#00305D'
             onPress={triggerLocalNotificationHandler}
         />
+        <View style={styles.outter} activeOpacity={1}>
+          <Button 
+            title={'Далее'}
+            color={'#ffffff'}
+            onPress={() => 
+              navigation.navigate('SignIn')
+            }
+          />
+        </View>
     </View>
   )
 }
@@ -70,7 +82,20 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     left: 10
-  }
+  },
+
+  outter: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: 50,
+    width: '50%',
+    height: '6%', 
+    backgroundColor: '#00305D',
+    borderRadius: 24,
+    top: 220,
+    marginBottom: '15%'
+  },
+
 })
 
 
