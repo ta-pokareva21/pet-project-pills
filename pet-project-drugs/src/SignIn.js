@@ -3,12 +3,40 @@ import { useState } from 'react';
 import { StyleSheet, Text, View, Image, Button, TextInput} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
+//import setState from "setstate";
+import usersData from './users.json'
 
 
 export default function SignIn(){
+
+        const state = {
+            isAuthenticated: false
+        }
+
         const [text, onChangeText] = useState('');
         const [number, onChangeNumber] = useState('');
         const navigation = useNavigation();
+
+        // Функция для проверки правильности логина и пароля
+        const checkAuthentication = () => {
+            //const { username, password } = state;
+            const username = text
+            const password = number
+    
+            // Проверяем, введены ли данные
+            if (!username || !password) {
+                return;
+            }
+      
+            usersData.forEach((user) => {
+                if (user.username === username && user.password === password) {
+                    state.isAuthenticated = true;
+                }
+            });
+         }
+
+
+
         return (
             <View style={styles.container}>
                 <View style={styles.textBlock}>
@@ -20,6 +48,8 @@ export default function SignIn(){
                         style={styles.input}
                         onChangeText={onChangeText}
                         value={text}
+                        // onChangeText={(username) => onChangeText(username, 'username')}
+                        // value={state.username}
                         placeholder="Логин"
                         keybordType="email-address"
                         editable
@@ -30,6 +60,8 @@ export default function SignIn(){
                         style={styles.input}
                         onChangeText={onChangeNumber}
                         value={number}
+                        // onChangeText={(password) => onChangeText(password, 'password')}
+                        // value={state.password}
                         placeholder="Пароль"
                         keybordType="email-address"
                         editable
@@ -45,9 +77,11 @@ export default function SignIn(){
                     <Button 
                       title={'Войти'}
                       color={'#ffffff'}
-                      onPress={() => 
-                        navigation.navigate('PermissionsNotification')
-                      }
+                      onPress={() => {
+                        checkAuthentication()
+                        if(state.isAuthenticated === true){
+                            navigation.navigate('Home')}
+                    }}
                     />
                 </View>
 
@@ -55,11 +89,15 @@ export default function SignIn(){
                     <Button 
                       title={'Зарегистрироваться'}
                       color={'#00305D'}
-                      onPress={() => 
-                        navigation.navigate('SignUp')
-                      }
+                      onPress={() => {
+                        checkAuthentication()
+                        if(state.isAuthenticated === true){
+                            navigation.navigate('Home')}
+                    }}
                     />
                 </View>
+
+                
             </View>    
         );
 }
