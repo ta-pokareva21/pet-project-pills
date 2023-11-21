@@ -1,16 +1,70 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity} from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TextInput, TouchableOpacity, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
+
+
+import usersData from './users.json'
+
+
 
 
 export default function SignUp(){
+
+    const state = {
+        isRegisteted: false
+    }
+
+   //const fs = require(RNFS)
+//    let rawdata = RNFS.readFileSync('users.json') // Читаем файл.
+//    let parseddata= JSON.parse(rawdata) 
+
     const [text1, onChangeText1] = useState('');
     const [text2, onChangeText2] = useState('');
     const [text3, onChangeText3] = useState('');
     const [number, onChangeNumber] = useState('');
     const navigation = useNavigation();
+
+    const handleRegister = async () => {
+        try{
+            await AsyncStorage.setItem('user', JSON.stringify({
+                username: text1,
+                usersurname: text2,
+                login: text3,
+                password: number
+            }));
+            
+            state.isRegisteted = true
+        } catch (error) {
+            Alert.alert('Ошибка регистрации: ' + error.message)
+        }
+    };
+ 
+    // const checkRegistration = () => {
+    //     //const { username, password } = state;
+    //     const name = text1
+    //     const surname = text2
+    //     const username = text3
+    //     const password = number
+
+    //     // Проверяем, введены ли данные
+    //     if (!name || !surname || !username || !password) {
+    //         return;
+    //     }
+  
+    //     usersData.forEach((user) => {
+    //         if (user.name === name && user.surname === surname && user.username === username && user.password === password) {
+    //             state.isRegisteted = true;
+    //         }
+    //         else {
+    //             state.isRegisteted = false
+    //         }
+    //     });
+    //  }
+
+
     return (
         <View style={styles.container}>
             <View >
@@ -75,9 +129,30 @@ export default function SignUp(){
                 <Button 
                   title={'Зарегистрироваться'}
                   color={'#ffffff'}
-                  onPress={() => 
-                    navigation.navigate('PermissionsNotification')
-                  }
+                  onPress={() => {handleRegister()
+                    if (state.isRegisteted === true){
+                        navigation.navigate('Home')
+                        Alert.alert('Вы успешно зарегистрированы!')
+                    }
+                }
+
+
+                    // checkRegistration();
+                    // if(state.isRegisteted !== true){
+                    //     usersData.push({"username": text3, "password": number})
+                    //     writeFile('users.json', usersData.toString, 'utf8')
+                    //     navigation.navigate('Home')
+                        //fs.writeFileSync('users.json', data);
+                        //RNFS.writeFile('users.json' ,  JSON.stringify({"name": text1, "surname": text2, "username": text3, "password": number}))
+                        // navigation.navigate('Home')
+                    // }else{
+
+                    // }
+                  
+                }
+
+                    
+                  
                 />
             </View>
         </View>    
@@ -97,7 +172,7 @@ text: {
     color: '#00305D',
     fontSize: 22,
     textAlign: 'center',
-    top: 100
+    top: 10
 },
 
 outter: {
@@ -108,7 +183,7 @@ outter: {
     height: '6%', 
     backgroundColor: '#00305D',
     borderRadius: 24,
-    top: 40,
+    top: -30,
     marginBottom: '15%'
 },
 
@@ -123,7 +198,7 @@ input: {
     borderBottomWidth: 1.5,
     marginBottom: 35,
     fontSize: 20,
-    top: 10,
+    top: -80,
 },
 
 picture: {

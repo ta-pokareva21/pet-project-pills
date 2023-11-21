@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import { StyleSheet, Text, View, Image, Button, TextInput} from 'react-native';
+import { StyleSheet, Text, View, Image, Button, TextInput, Alert} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from '@react-native-async-storage/async-storage'
 //import setState from "setstate";
 import usersData from './users.json'
 
@@ -17,23 +18,39 @@ export default function SignIn(){
         const [number, onChangeNumber] = useState('');
         const navigation = useNavigation();
 
-        // Функция для проверки правильности логина и пароля
-        const checkAuthentication = () => {
-            //const { username, password } = state;
-            const username = text
-            const password = number
-    
-            // Проверяем, введены ли данные
-            if (!username || !password) {
-                return;
-            }
-      
-            usersData.forEach((user) => {
-                if (user.username === username && user.password === password) {
-                    state.isAuthenticated = true;
+        const handleAutorization1 = async () => {
+            try{
+                const user = await AsyncStorage.getItem('user');
+                const parsedUser = JSON.parse(user);
+                if (parsedUser.login === text && parsedUser.password === number){
+                    state.isAuthenticated = true
                 }
-            });
-         }
+                else{
+                    state.isAuthenticated = false
+                    Alert.alert('Ошибка авторизации')
+                }
+            } catch (error) {
+                Alert.alert('Ошибка авторизации')
+            }
+        };
+
+        // Функция для проверки правильности логина и пароля
+        // const checkAuthentication = () => {
+        //     //const { username, password } = state;
+        //     const username = text
+        //     const password = number
+    
+        //     // Проверяем, введены ли данные
+        //     if (!username || !password) {
+        //         return;
+        //     }
+      
+        //     usersData.forEach((user) => {
+        //         if (user.username === username && user.password === password) {
+        //             state.isAuthenticated = true;
+        //         }
+        //     });
+        //  }
 
 
 
@@ -78,9 +95,11 @@ export default function SignIn(){
                       title={'Войти'}
                       color={'#ffffff'}
                       onPress={() => {
-                        checkAuthentication()
-                        if(state.isAuthenticated === true){
-                            navigation.navigate('Home')}
+                        handleAutorization1()
+                        if(state.isAuthenticated !== false){
+                            navigation.navigate('Home')
+                            Alert.alert('Вы успешно авторизованы')
+                        } 
                     }}
                     />
                 </View>
@@ -89,11 +108,10 @@ export default function SignIn(){
                     <Button 
                       title={'Зарегистрироваться'}
                       color={'#00305D'}
-                      onPress={() => {
-                        checkAuthentication()
-                        if(state.isAuthenticated === true){
-                            navigation.navigate('Home')}
-                    }}
+                      onPress={() => 
+                            navigation.navigate('SignUp')
+                        }
+                    
                     />
                 </View>
 
